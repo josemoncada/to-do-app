@@ -1,0 +1,62 @@
+services:
+  # Base de datos PostgreSQL
+  postgres:
+    image: postgres:17-alpine
+    container_name: to-do-app-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_USERNAME:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+      POSTGRES_DB: ${DB_DATABASE:-to_do_app_db}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - '${DB_PORT:-5432}:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - to-do-app-network
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${DB_USERNAME:-postgres}']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # API TO DO APP
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: to-do-app-api
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      NODE_ENV: ${NODE_ENV:-production}
+      PORT: ${PORT:-3000}
+      HOST: ${HOST:-0.0.0.0}
+      DB_TYPE: postgres
+      DB_HOST: ${DB_HOST:-postgres}
+      DB_PORT: 5432
+      DB_USERNAME: ${DB_USERNAME:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-postgres}
+      DB_DATABASE: ${DB_DATABASE:-to_do_app_db}
+      JWT_SECRET: ${JWT_SECRET:-your-super-secret-jwt-key-change-this}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-24h}
+      API_PREFIX: ${API_PREFIX:-/api}
+      API_VERSION: ${API_VERSION:-v1}
+    ports:
+      - '${PORT:-3000}:3000'
+    networks:
+      - to-do-app-network
+    volumes:
+      - ./logs:/app/logs
+    command: sh -c "npm run migration:run:prod && node dist/server.js"
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  to-do-app-network:
+    driver: bridge
