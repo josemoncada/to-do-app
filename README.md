@@ -13,7 +13,7 @@
 
 1. **Clonar el repositorio**
 ```bash
-git clone <repository-url>
+git clone https://github.com/josemoncada/to-do-app.git
 cd to-do-app
 ```
 
@@ -85,7 +85,7 @@ npm start
 
 1. **Clonar el repositorio**
 ```bash
-git clone <repository-url>
+git clone https://github.com/josemoncada/to-do-app.git
 cd to-do-app
 ```
 
