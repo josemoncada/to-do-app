@@ -32,15 +32,15 @@ Edita el archivo `.env` con tus configuraciones:
 # Application
 NODE_ENV=development
 PORT=3000
-HOST=localhost
+HOST=0.0.0.0
 
 # Database
 DB_TYPE=postgres
 DB_HOST=localhost
 DB_PORT=5432
-DB_USERNAME=postgres
-DB_PASSWORD=postgres
-DB_DATABASE=to_do_app_db
+DB_USERNAME=usuario_base_datos
+DB_PASSWORD=password_usuario
+DB_DATABASE=nombre_base_datos
 
 # JWT
 JWT_SECRET=secret-jwt-key-change-this-in-production
