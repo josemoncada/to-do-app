@@ -1,4 +1,4 @@
-import { PaginationQuery } from "../../../commons/pagination/pagination-query.type";
+import { PaginationQuery } from "../../../commons/types/pagination-query.type";
 import { PriorityEnum } from "../entities/to-do.entity";
 
 export interface ToDoPaginationQuery extends PaginationQuery {

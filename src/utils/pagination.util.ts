@@ -1,4 +1,4 @@
-import type { PaginationQuery, ListOrder } from './pagination-query.type';
+import type { PaginationQuery, ListOrder } from '../commons/types/pagination-query.type';
 
 export function normalizePagination(q: PaginationQuery) {
   const page = Math.max(1, q.page ?? 1);

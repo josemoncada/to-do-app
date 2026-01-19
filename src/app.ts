@@ -8,6 +8,7 @@ import fastifySwaggerUi from "@fastify/swagger-ui";
 import { authRoutes } from "./modules/auth/auth.routes";
 import { toDoRoutes } from "./modules/to-do/to-do.routes";
 import { errorHandler } from "./middlewares/error.middleware";
+import { ErrorResponseSchema } from "./commons/schemas/error-response.schema";
 
 export async function buildApp() : Promise<FastifyInstance> {
 
@@ -42,6 +43,23 @@ export async function buildApp() : Promise<FastifyInstance> {
 
     await app.register(fastifySwagger, swaggerConfig);
     await app.register(fastifySwaggerUi, swaggerUiConfig);
+
+
+
+    app.addSchema(ErrorResponseSchema);
+
+    app.addHook('onRoute', (routeOptions) => {
+        const schema = routeOptions.schema;
+        if (!schema || typeof schema !== 'object') return;
+        
+        const s = schema as { response?: Record<string, unknown> };
+
+        s.response = (s.response ?? {}) as Record<string, unknown>;
+
+        s.response['4xx'] = s.response['4xx'] ?? { $ref: 'ErrorResponse#' };
+        s.response['5xx'] = s.response['5xx'] ?? { $ref: 'ErrorResponse#' };
+    });
+
 
     app.get('/health', async () => {
         return {

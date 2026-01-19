@@ -7,8 +7,6 @@ import { LoginDto } from "./dtos/login.dto";
 
 export class AuthController {
     
-    
-
     constructor(private authService : AuthService){}
 
     async register(request: FastifyRequest, reply: FastifyReply) {

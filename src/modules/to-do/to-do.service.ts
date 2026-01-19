@@ -6,8 +6,8 @@ import { NotFoundError, ForbiddenError } from '../../utils/errors.util';
 import { ToDoDto } from './dtos/to-do.dto';
 import { toToDoDto } from './mappers/to-do.mapper';
 import { ToDoPaginationQuery } from './types/to-do-pagination-query.type';
-import { PaginationResult } from '../../commons/pagination/pagination-result.type';
-import { normalizePagination } from '../../commons/pagination/pagination.util';
+import { PaginationResult } from '../../commons/types/pagination-result.type';
+import { normalizePagination } from '../../utils/pagination.util';
 
 export class ToDoService {
 
